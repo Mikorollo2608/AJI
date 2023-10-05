@@ -24,7 +24,7 @@ body {
 
 body {
     background: #66ccff;
-    margin: 0px;
+    margin: 0;
 }
 
 .bus {
@@ -32,7 +32,7 @@ body {
     top: 50%;
     left: 30%;
     height: 250px;
-    width: 600px;
+    width: 700px;
     background: #e3ed50;
     border-radius: 10% / 100%;
     border-top-left-radius: 10px;
@@ -52,7 +52,7 @@ body {
 .wheel2 {
     position: absolute;
     top: 205px;
-    left: 450px;
+    left: 510px;
     width: 10px;
     height: 10px;
     background-color: blue;
@@ -77,4 +77,64 @@ body {
     background: grey;
     border: 18px solid black;
     border-radius: 50%
+}
+
+.window1, .window2, .window3, .window4, .windowF2 {
+    position: absolute;
+    width: 150px;
+    height: 110px;
+    top: 10px;
+    background: #3b3b33;
+    border-radius: 10px;
+}
+
+.window1 {
+    left: 10px;
+}
+
+.window2 {
+    left: 170px;
+}
+
+.window3 {
+    left: 330px;
+}
+
+
+.window4 {
+    left: 500px;
+    height: 110px;
+    width: 140px;
+}
+
+.windowF1 {
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 12px;
+    left: 637px;
+    border-bottom: 108px solid #3b3b33;
+    border-right: 50px solid transparent;
+    border-radius: 10px;
+}
+
+.windowF2 {
+    left: 576px;
+    top: 110px;
+    height: 50px;
+    width: 110px;
+}
+
+.roundedMask {
+    background: #e3ed50;
+    position: absolute;
+    border-radius: 10% / 100%;
+    border-top-right-radius: 60%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    left: 495px;
+    top: 117px;
+    width: 130px;
+    height: 70px;
 }
