@@ -4,8 +4,8 @@ body {
 
 .road {
     position: absolute;
-    top: 80%;
-    height: 20%;
+    top: 70%;
+    height: 30%;
     width: 100%;
     background: #9191a0;
 }
