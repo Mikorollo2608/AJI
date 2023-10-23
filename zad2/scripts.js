@@ -125,7 +125,7 @@ let formatDate = function (date) {
     if(date == null || date == "") return "";
     date = new Date(date);
     let day = date.getDate();
-    let month = date.getMonth();
+    let month = date.getMonth()+1;
     let year = date.getFullYear();
     return String(day).concat("/").concat(month).concat("/").concat(year);
 }
