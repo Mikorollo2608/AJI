@@ -2,43 +2,49 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet"
-          type="text/css" href="theme.css">
+    <link href="theme.css"
+          rel="stylesheet" type="text/css">
     <title>MyTODO App</title>
 </head>
 <body>
-<h1>MyNotes</h1>
-<form>
-    <label>Title</label>
-    <input type="text" id="inputTitle"/>
-    <label>Description</label>
-    <input type="text" id="inputDescription"/>
-    <label>Place</label>
-    <input type="text" id="inputPlace"/>
-    <label>Due date</label>
-    <input type="date" id="inputDate"/>
-    <input type="button" value="add"
-           onclick="addTodo()"/>
+<h1 class="mx-3 mb-3">MyNotes</h1>
+<h2 class="mx-3 mb-3">Add new Note</h2>
+<form class="row mx-3 g-3 align-items-center align-middle">
+        <div class="col-sm-2">
+            <input class="form-control" id="inputTitle" placeholder="Title" type="text"/>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control" id="inputDescription" placeholder="Description" type="text"/>
+        </div>
+        <div class="col-sm">
+            <input class="form-control" id="inputPlace" placeholder="Place" type="text"/>
+        </div>
+        <div class="col-sm">
+            <input class="form-switch" id="inputDate" type="date"/>
+        </div>
+    <div class="col-sm">
+        <input class="btn btn-primary" onclick="addTodo()" type="button" value="add"/>
+    </div>
 </form>
-<div>
-    <label>Search</label>
-    <input type="text" id="inputSearch" placeholder="Type Your search here..."/>
+<h2 class="mx-3 mt-3">Search</h2>
+<div class="mx-3 mb-3">
+    <input class="form-control" id="inputSearch" placeholder="Type Your search here..." type="text"/>
 </div>
 <div>
-    <table id="todoListView" class="table table-striped">
+    <table class="table table-striped" id="todoListView">
         <thead>
         <tr>
-            <th>My Notes</th>
+            <th>Notes</th>
         </tr>
         <tr>
             <th class="w-25">Title</th>
             <th class="w-50">Description</th>
-            <th class="w-25">Place</th>
-            <th>Due Date</th>
+            <th class="w-auto">Place</th>
+            <th class="w-auto">Due Date</th>
             <th></th>
         </tr>
         </thead>
@@ -47,9 +53,9 @@
         </tbody>
     </table>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+<script crossorigin="anonymous"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="scripts.js"></script>
 </body>
 </html>
