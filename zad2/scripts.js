@@ -4,6 +4,12 @@ let todoList = []; //declares a new array for Your todo list
 document.getElementById("inputSearch").addEventListener('input', (event) => {
     updateTodoList();
 })
+document.getElementById("inputSearchDateStart").addEventListener('input', (event) => {
+    updateTodoList();
+})
+document.getElementById("inputSearchDateEnd").addEventListener('input', (event) => {
+    updateTodoList();
+})
 const BASE_URL = "https://api.jsonbin.io/v3/b/652a9a5254105e766fc22f25";
 const SECRET_KEY = "$2a$10$SGD.e3rRcjqkai46wYTGQ.dNFSMZ8jma57aeSqn/Kp1EirwMrowrG";
 $.ajax({
@@ -34,11 +40,13 @@ let updateTodoList = function () {
 
     //add all elements
     let filterInput = document.getElementById("inputSearch");
+    let dateStart = document.getElementById("inputSearchDateStart").value == "" ? null : new Date( document.getElementById("inputSearchDateStart").value);
+    let dateEnd = document.getElementById("inputSearchDateEnd").value == "" ? null : new Date( document.getElementById("inputSearchDateEnd").value);
     for (let todo in todoList) {
         if (
-            (filterInput.value == "") ||
+            ((filterInput.value == "") ||
             (todoList[todo].title.includes(filterInput.value)) ||
-            (todoList[todo].description.includes(filterInput.value))
+            (todoList[todo].description.includes(filterInput.value))) && (checkDate(dateStart, dateEnd, todoList[todo].dueDate == "" ? null : new Date( todoList[todo].dueDate)))
         ) {
             let newRow = document.createElement("tr");
             let newTitle = document.createElement("td");
@@ -86,7 +94,7 @@ let addTodo = function () {
     let newTitle = inputTitle.value;
     let newDescription = inputDescription.value;
     let newPlace = inputPlace.value;
-    let newDate = new Date(inputDate.value);
+    let newDate = inputDate.value == "" ? "" : new Date(inputDate.value);
     //create new item
     let newTodo = {
         title: newTitle,
@@ -119,10 +127,18 @@ let updateJSONbin = function () {
 }
 
 let formatDate = function (date) {
-    if(date == null) return "";
+    if(date == null || date == "") return "";
     date = new Date(date);
     let day = date.getDate();
     let month = date.getMonth();
     let year = date.getFullYear();
     return String(day).concat("/").concat(month).concat("/").concat(year);
+}
+
+let checkDate = function (start, end, date){
+    if(start === null && end === null) return true;
+    else if(date===null) return false;
+    else if(start === null) return date<end;
+    else if(end === null) return date>start;
+    else return date>start && date<end;
 }

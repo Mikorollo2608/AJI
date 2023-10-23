@@ -14,25 +14,39 @@
 <h1 class="mx-3 mb-3">MyNotes</h1>
 <h2 class="mx-3 mb-3">Add new Note</h2>
 <form class="row mx-3 g-3 align-items-center align-middle">
-        <div class="col-sm-2">
-            <input class="form-control" id="inputTitle" placeholder="Title" type="text"/>
-        </div>
-        <div class="col-sm-5">
-            <input class="form-control" id="inputDescription" placeholder="Description" type="text"/>
-        </div>
-        <div class="col-sm">
-            <input class="form-control" id="inputPlace" placeholder="Place" type="text"/>
-        </div>
-        <div class="col-sm">
-            <input class="form-switch" id="inputDate" type="date"/>
-        </div>
+    <div class="col-sm-2">
+        <input class="form-control" id="inputTitle" placeholder="Title" type="text"/>
+    </div>
+    <div class="col-sm-5">
+        <input class="form-control" id="inputDescription" placeholder="Description" type="text"/>
+    </div>
+    <div class="col-sm">
+        <input class="form-control" id="inputPlace" placeholder="Place" type="text"/>
+    </div>
+    <div class="col-sm">
+        <input class="form-control" id="inputDate" type="date"/>
+    </div>
     <div class="col-sm">
         <input class="btn btn-primary" onclick="addTodo()" type="button" value="add"/>
     </div>
 </form>
 <h2 class="mx-3 mt-3">Search</h2>
-<div class="mx-3 mb-3">
-    <input class="form-control" id="inputSearch" placeholder="Type Your search here..." type="text"/>
+<div class="mx-3 mb-3 row">
+    <div class="col-sm-3">
+        <input class="form-control" id="inputSearch" placeholder="Type Your search here..." type="text"/>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-floating">
+            <input class="form-control" id="inputSearchDateStart" type="date"/>
+            <label for="inputSearchDateStart">From:</label>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-floating">
+            <input class="form-control" id="inputSearchDateEnd" type="date"/>
+            <label for="inputSearchDateEnd">To:</label>
+        </div>
+    </div>
 </div>
 <div>
     <table class="table table-striped" id="todoListView">

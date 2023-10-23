@@ -2,3 +2,7 @@
     margin-left: 10%;
     width: 80%;
 }
+
+th {
+    white-space: nowrap;
+}
