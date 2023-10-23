@@ -1,13 +1,13 @@
 "use strict"
 let todoList = []; //declares a new array for Your todo list
 
-document.getElementById("inputSearch").addEventListener('input', (event) => {
+$('#inputSearch').on('input', (event) => {
     updateTodoList();
 })
-document.getElementById("inputSearchDateStart").addEventListener('input', (event) => {
+$("#inputSearchDateStart").on('input', (event) => {
     updateTodoList();
 })
-document.getElementById("inputSearchDateEnd").addEventListener('input', (event) => {
+$("#inputSearchDateEnd").on('input', (event) => {
     updateTodoList();
 })
 const BASE_URL = "https://api.jsonbin.io/v3/b/652a9a5254105e766fc22f25";
@@ -30,50 +30,45 @@ $.ajax({
 });
 let updateTodoList = function () {
 
-    let todoListDiv =
-        document.getElementById("todoListView").lastElementChild;
-
-    //remove all elements
-    while (todoListDiv.firstChild) {
-        todoListDiv.removeChild(todoListDiv.firstChild);
-    }
+    let tableBody = $("#todoListView tbody");
+    tableBody.children().remove();
 
     //add all elements
-    let filterInput = document.getElementById("inputSearch");
-    let dateStart = document.getElementById("inputSearchDateStart").value == "" ? null : new Date( document.getElementById("inputSearchDateStart").value);
-    let dateEnd = document.getElementById("inputSearchDateEnd").value == "" ? null : new Date( document.getElementById("inputSearchDateEnd").value);
+    let filterInput = $("#inputSearch").val();
+    let dateStart = $("#inputSearchDateStart").val() == "" ? null : new Date( $("#inputSearchDateStart").val());
+    let dateEnd = $("#inputSearchDateEnd").val() == "" ? null : new Date( $("#inputSearchDateEnd").val());
     for (let todo in todoList) {
         if (
-            ((filterInput.value == "") ||
-            (todoList[todo].title.includes(filterInput.value)) ||
-            (todoList[todo].description.includes(filterInput.value))) && (checkDate(dateStart, dateEnd, todoList[todo].dueDate == "" ? null : new Date( todoList[todo].dueDate)))
+            ((filterInput== "") ||
+            (todoList[todo].title.includes(filterInput)) ||
+            (todoList[todo].description.includes(filterInput))) && (checkDate(dateStart, dateEnd, todoList[todo].dueDate == "" ? null : new Date( todoList[todo].dueDate)))
         ) {
-            let newRow = document.createElement("tr");
-            let newTitle = document.createElement("td");
-            let newDescription = document.createElement("td");
-            let newPlace = document.createElement("td");
-            let newDueDate = document.createElement("td");
-            let buttonWrap= document.createElement("td");
-            newTitle.textContent = todoList[todo].title;
-            newDescription.textContent = todoList[todo].description;
-            newPlace.textContent = todoList[todo].place;
-            newDueDate.textContent = formatDate(todoList[todo].dueDate);
-            let newDeleteButton = document.createElement("input");
-            newDeleteButton.type = "button";
-            newDeleteButton.value = "x";
-            newDeleteButton.className="btn btn-primary";
-            newDeleteButton.addEventListener("click",
+            let newRow = $("<tr></tr>");
+            let newTitle = $("<td></td>");
+            let newDescription = $("<td></td>");
+            let newPlace = $("<td></td>");
+            let newDueDate = $("<td></td>");
+            let buttonWrap= $("<td></td>");
+            newTitle.text(todoList[todo].title);
+            newDescription.text(todoList[todo].description);
+            newPlace.text(todoList[todo].place);
+            newDueDate.text(formatDate(todoList[todo].dueDate));
+            let newDeleteButton = $("<input></input>");
+            newDeleteButton.attr("type", "button");
+            newDeleteButton.val("x");
+            newDeleteButton.attr("class","btn btn-primary");
+            newDeleteButton.on("click",
                 function () {
                     deleteTodo(todo);
                 });
-            newRow.appendChild(newTitle);
-            newRow.appendChild(newDescription);
-            newRow.appendChild(newPlace);
-            newRow.appendChild(newDueDate);
-            buttonWrap.className="align-middle text-center";
-            buttonWrap.appendChild(newDeleteButton);
-            newRow.appendChild(buttonWrap);
-            todoListDiv.appendChild(newRow);
+            newRow.append(newTitle);
+            newRow.append(newDescription);
+            newRow.append(newPlace);
+            newRow.append(newDueDate);
+            buttonWrap.attr("class","align-middle text-center");
+            buttonWrap.append(newDeleteButton);
+            newRow.append(buttonWrap);
+            tableBody.append(newRow);
         }
     }
 }
@@ -86,15 +81,15 @@ let deleteTodo = function (index) {
 
 let addTodo = function () {
     //get the elements in the form
-    let inputTitle = document.getElementById("inputTitle");
-    let inputDescription = document.getElementById("inputDescription");
-    let inputPlace = document.getElementById("inputPlace");
-    let inputDate = document.getElementById("inputDate");
+    let inputTitle = $("#inputTitle");
+    let inputDescription = $("#inputDescription");
+    let inputPlace = $("#inputPlace");
+    let inputDate = $("#inputDate");
     //get the values from the form
-    let newTitle = inputTitle.value;
-    let newDescription = inputDescription.value;
-    let newPlace = inputPlace.value;
-    let newDate = inputDate.value == "" ? "" : new Date(inputDate.value);
+    let newTitle = inputTitle.value();
+    let newDescription = inputDescription.value();
+    let newPlace = inputPlace.value();
+    let newDate = inputDate.value() == "" ? "" : new Date(inputDate.value());
     //create new item
     let newTodo = {
         title: newTitle,
