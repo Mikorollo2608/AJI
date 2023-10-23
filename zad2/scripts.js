@@ -86,10 +86,10 @@ let addTodo = function () {
     let inputPlace = $("#inputPlace");
     let inputDate = $("#inputDate");
     //get the values from the form
-    let newTitle = inputTitle.value();
-    let newDescription = inputDescription.value();
-    let newPlace = inputPlace.value();
-    let newDate = inputDate.value() == "" ? "" : new Date(inputDate.value());
+    let newTitle = inputTitle.val();
+    let newDescription = inputDescription.val();
+    let newPlace = inputPlace.val();
+    let newDate = inputDate.val() == "" ? "" : new Date(inputDate.val());
     //create new item
     let newTodo = {
         title: newTitle,
