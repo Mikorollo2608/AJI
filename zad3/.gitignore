@@ -2,6 +2,7 @@
 node_modules
 /dist
 
+*test*
 index.html
 indextest.html
 # local env files

@@ -3,18 +3,18 @@
     <b-container>
       <h1>Baza filmów</h1>
       <SearchBar/>
+      <MoviesTable/>
     </b-container>
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   </div>
 </template>
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import SearchBar from "./components/SearchBar.vue";
-
+import MoviesTable from "@/components/MoviesTable.vue";
 export default {
+
   name: 'App',
   components: {
+    MoviesTable,
     SearchBar
   }
 }
