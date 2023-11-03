@@ -14,8 +14,8 @@ export const useMoviesStore = defineStore('movies', {
     getters: {
         getMovies() {
            //return JSON.parse(JSON.stringify(this.movies));
-            if(this.title===null && this.yearStart ===null && this.yearEnd === null && this.cast === null){ console.log("asd"); return JSON.parse(JSON.stringify(this.movies));}
-            return filter(JSON.parse(JSON.stringify(this.movies)),(movie) =>{
+            if(this.title===null && this.yearStart ===null && this.yearEnd === null && this.cast === null){ console.log("asd"); return this.movies;}
+            return filter((this.movies),(movie) =>{
                 if(this.title !== null && !includes(movie.title, this.title)) {return false;}
                 if(this.yearStart !== null && movie.year > this.yearStart) {return false;}
                 if(this.yearEnd !== null && movie.year < this.yearEnd) {return false;}
