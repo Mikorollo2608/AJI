@@ -2,11 +2,10 @@
 import {useMoviesStore} from "@/stores/MoviesStore";
 const movies = useMoviesStore();
 let moviesList = movies.getMovies.slice(0,10);
-console.log(movies.getMovies);
 </script>
 
 <template>
-  <b-table hover :items="moviesList" :fields="fields">
+  <b-table small hover :items="moviesList" :fields="fields">
     <template #cell(title)="movie">
     {{movie.item.title}}
   </template>
