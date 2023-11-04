@@ -1,15 +1,20 @@
 <script setup>
 import {useMoviesStore} from "@/stores/MoviesStore";
 import {ref} from 'vue';
+import {slice} from 'lodash'
 
 const movies = useMoviesStore();
-let moviesList = ref(movies.getMovies.slice(0, 10));
+let moviesList = ref(slice(movies.getMovies,0, 10));
 let moviesAmount = 10;
-console.log(moviesAmount)
-function updateList(){
+
+movies.$subscribe(()=>{
+  moviesAmount = 10;
+  moviesList.value = slice(movies.getMovies,0, 10);
+})
+
+function expandList(){
   moviesAmount+=10;
-  moviesList.value=movies.getMovies.slice(0, moviesAmount);
-  console.log(JSON.stringify(moviesList));
+  moviesList.value=slice(movies.getMovies,0, moviesAmount);
 }
 </script>
 
@@ -29,32 +34,8 @@ function updateList(){
         <span v-for="genre in movie.item.genres" :key="genre">{{ genre }} </span>
       </template>
     </b-table>
-    <b-button @click="updateList()" block variant="info">Pokaż więcej</b-button>
+    <b-button @click="expandList()" block variant="info">Pokaż więcej</b-button>
   </div>
-  <!--  <b-table hover>-->
-  <!--    <b-thead>-->
-  <!--      <b-tr>-->
-  <!--        <b-th>Title</b-th>-->
-  <!--        <b-th>Production year</b-th>-->
-  <!--        <b-th>Cast</b-th>-->
-  <!--        <b-th>Genres</b-th>-->
-  <!--      </b-tr>-->
-  <!--    </b-thead>-->
-  <!--    <b-tbody>-->
-  <!--&lt;!&ndash;      <b-tr v-for="movie in moviesList" v-bind:key="movie.title">&ndash;&gt;-->
-  <!--&lt;!&ndash;        <b-td>{{movie.title}}</b-td>&ndash;&gt;-->
-  <!--&lt;!&ndash;        <b-td>{{movie.year}}</b-td>&ndash;&gt;-->
-  <!--&lt;!&ndash;        <b-td>{{movie.cast}}</b-td>&ndash;&gt;-->
-  <!--&lt;!&ndash;        <b-td>{{movie.genres}}</b-td>&ndash;&gt;-->
-  <!--&lt;!&ndash;      </b-tr>&ndash;&gt;-->
-  <!--            <b-tr>-->
-  <!--              <b-td>piwo</b-td>-->
-  <!--              <b-td>piwo2</b-td>-->
-  <!--              <b-td>piwo3</b-td>-->
-  <!--              <b-td>piwo4</b-td>-->
-  <!--            </b-tr>-->
-  <!--    </b-tbody>-->
-  <!--  </b-table>-->
 </template>
 
 <script>
