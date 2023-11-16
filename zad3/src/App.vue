@@ -4,16 +4,24 @@
       <h1>Baza filmów</h1>
       <SearchBar/>
       <MoviesTable/>
+      <h1>Filmy wg gatunku</h1>
+      <MoviesGenre/>
+      <h1 class="pt-5">Filmy wg obsady</h1>
+      <MoviesCast/>
     </b-container>
   </div>
 </template>
 <script>
-import SearchBar from "./components/SearchBar.vue";
+import SearchBar from "@/components/SearchBar.vue";
 import MoviesTable from "@/components/MoviesTable.vue";
+import MoviesGenre from "@/components/MoviesGenre.vue";
+import MoviesCast from "@/components/MoviesCast.vue";
 export default {
 
   name: 'App',
   components: {
+    MoviesCast,
+    MoviesGenre,
     MoviesTable,
     SearchBar
   }
