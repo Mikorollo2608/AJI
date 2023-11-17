@@ -1,13 +1,13 @@
 <script setup>
 import {useMoviesStore} from "@/stores/MoviesStore";
-import {filter, flatten, includes, map, slice, uniq} from "lodash";
+import {filter, flatten, includes, map, slice, uniq, sortBy} from "lodash";
 
 const movies = useMoviesStore();
 let moviesListCast = slice(filter(movies.getMovies,(movie) => {
   return  movie.cast.length !== 0;
 }), 0, 100);
 
-let actors = uniq(flatten(map(moviesListCast,'cast')));
+let actors = sortBy(uniq(flatten(map(moviesListCast,'cast'))));
 </script>
 
 <template>

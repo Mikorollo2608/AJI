@@ -23,14 +23,6 @@ export const useMoviesStore = defineStore('movies', {
                 return true;
             })
         },
-    },
-    actions: {
-        setFilters(filters){
-            this.title = filters.title;
-            this.yearStart = filters.yearStart;
-            this.yearEnd = filters.yearEnd;
-            this.cast = filters.cast;
-        }
     }
 })
 
