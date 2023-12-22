@@ -1,10 +1,11 @@
 import express, {Request,Response,Application} from "express";
+import "reflect-metadata"
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
 
 app.get('/', (req:Request, res:Response):void => {
-    res.send('Hello World');
+    res.send('Witaj świecie');
 });
 
 app.listen(3000, () => {
