@@ -15,7 +15,7 @@ let actors = sortBy(uniq(flatten(map(moviesListCast,'cast'))));
     <b-list-group v-for="actor in actors" :key="actor">
       <div>
         <h4 class="pt-3">{{actor}}</h4>
-        <b-list-group-item v-for="movie in filter(moviesListCast, (m) => { return includes(m.cast, actor) })" :key="movie">
+        <b-list-group-item v-for="movie in sortBy(filter(moviesListCast, (m) => { return includes(m.cast, actor) }),'title')" :key="movie">
           {{movie.title}} - {{movie.year}}
         </b-list-group-item>
       </div>

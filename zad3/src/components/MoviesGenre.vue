@@ -15,7 +15,7 @@ let genres = sortBy(uniq(flatten(map(moviesListGenres,'genres'))));
     <b-list-group v-for="genre in genres" :key="genre">
       <div>
         <h4 class="pt-3">{{genre}}</h4>
-        <b-list-group-item v-for="movie in filter(moviesListGenres, (m) => { return includes(m.genres, genre) })" :key="movie">
+        <b-list-group-item v-for="movie in sortBy(filter(moviesListGenres, (m) => { return includes(m.genres, genre) }),'title')" :key="movie">
           {{movie.title}} - {{movie.year}}
         </b-list-group-item>
       </div>
