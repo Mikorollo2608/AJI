@@ -5,7 +5,6 @@ import {ReasonPhrases, StatusCodes, getReasonPhrase, getStatusCode} from 'http-s
 import {RestError} from "../errors";
 import {checkExact, param, validationResult} from "express-validator";
 import {checkSchema, createNewProductSchema} from "../Schemas/ProductSchemas";
-import {Equal} from "typeorm";
 
 const productRepository = AppDataSource.getRepository(Product);
 
@@ -16,11 +15,13 @@ async function getAllProducts(req: Request, res: Response): Promise<void> {
 
 async function getProductById(req: Request, res: Response): Promise<void> {
 
-    let id:number = parseInt(req.params.id);
-    if(isNaN(id)){
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
         res.sendStatus(StatusCodes.NOT_FOUND);
         return ;
     }
+
+    const id:number = parseInt(req.params.id);
 
     const product: Product | null = await productRepository.findOneBy({id: id });
     if(product){
@@ -53,5 +54,5 @@ export const router = express.Router();
 router.use(express.json());
 
 router.get('/', getAllProducts);
-router.get('/:id', getProductById);
+router.get('/:id', param('id').isInt(), getProductById);
 router.post('/',checkExact(checkSchema(createNewProductSchema)), createNewProduct);
