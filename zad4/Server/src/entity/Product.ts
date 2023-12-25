@@ -15,13 +15,12 @@ export class Product {
     @Column({nullable:false})
     description: string
 
-    @Column({type:"float", nullable:false})
-    unit_price: number
+    @Column({name:"unit_price", type:"float", nullable:false})
+    unitPrice: number
 
-    @Column({type:"float", nullable:false})
-    unit_weight: number
+    @Column({name:"unit_weight",type:"float", nullable:false})
+    unitWeight: number
 
     @ManyToOne(() => Category)
-    @JoinColumn()
     category: Category
 }
