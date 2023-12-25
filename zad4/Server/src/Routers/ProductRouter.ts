@@ -3,8 +3,8 @@ import {AppDataSource} from "../data-source";
 import {Product} from "../entity/Product";
 import {ReasonPhrases, StatusCodes, getReasonPhrase, getStatusCode} from 'http-status-codes';
 import {RestError} from "../errors";
-import {checkExact, param, validationResult} from "express-validator";
-import {checkSchema, createNewProductSchema} from "../Schemas/ProductSchemas";
+import {checkExact, validationResult} from "express-validator";
+import {param, checkSchema, createNewProductSchema, productExists} from "../Schemas/ProductSchemas";
 
 const productRepository = AppDataSource.getRepository(Product);
 
@@ -24,11 +24,7 @@ async function getProductById(req: Request, res: Response): Promise<void> {
     const id:number = parseInt(req.params.id);
 
     const product: Product | null = await productRepository.findOneBy({id: id });
-    if(product){
-        res.json(product);
-    } else {
-        res.sendStatus(StatusCodes.NOT_FOUND)
-    }
+    res.json(product);
 }
 
 async function createNewProduct(req: Request, res: Response): Promise<void> {
@@ -54,5 +50,5 @@ export const router = express.Router();
 router.use(express.json());
 
 router.get('/', getAllProducts);
-router.get('/:id', param('id').isInt(), getProductById);
+router.get('/:id', param('id').isInt().productExists(), getProductById);
 router.post('/',checkExact(checkSchema(createNewProductSchema)), createNewProduct);

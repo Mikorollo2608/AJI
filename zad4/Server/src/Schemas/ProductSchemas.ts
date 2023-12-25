@@ -1,10 +1,13 @@
 import {ExpressValidator} from "express-validator";
 import {AppDataSource} from "../data-source";
 import {Category} from "../entity/Category";
+import {Product} from "../entity/Product";
 
 const categoryRepository = AppDataSource.getRepository(Category);
-export const { checkSchema } = new ExpressValidator({
-    categoryExists: async (value:any) => {return categoryExists(value);}
+const productRepository = AppDataSource.getRepository(Product);
+export const { checkSchema, param } = new ExpressValidator({
+    categoryExists: async (value:any) => {return categoryExists(value);},
+    productExists: async (value:any) => {return productExists(value);}
 })
 
 export const createNewProductSchema = {
@@ -57,6 +60,22 @@ export async function categoryExists (value:any) {
     }
     if (result === null) {
         throw new Error(`There is no category with id:'${categoryId}' and name:'${categoryName}'`);
+    }
+    return result;
+}
+
+export async function productExists (value:any) {
+    const productId = value;
+    let result;
+    try {
+        result = await productRepository.findOneBy({
+            id: productId
+        })
+    } catch (error) {
+        throw new Error(`Problem with connecting to database`);
+    }
+    if (result === null) {
+        throw new Error(`There is no product with id:'${productId}'.`);
     }
     return result;
 }
