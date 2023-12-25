@@ -6,7 +6,7 @@ export class OrderState {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({nullable:false})
+    @Column({unique:true, nullable:false})
     state: string
 
 }

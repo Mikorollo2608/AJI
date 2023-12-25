@@ -12,9 +12,9 @@ export class OrderItem {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({name:"order_id"})
     @ManyToOne(() => Order)
-    orderId: number
+    @JoinColumn({name:"order_id"})
+    order: Order
 
     @Column({nullable:false})
     name: string
@@ -29,19 +29,21 @@ export class OrderItem {
     unitWeight: number
 
     @ManyToOne(() => Category)
+    @JoinColumn({name:"category_id"})
     category: Category
 
     @Column({type:"integer",nullable:false})
     quantity: number
 
-    constructor(product: Product, quantity: number) {
-        this.name = product.name;
-        this.description = product.description;
-        this.unitPrice = product.unitPrice;
-        this.unitWeight = product.unitWeight;
-        this.category = product.category;
-        this.quantity = quantity;
+    static create(product: Product, quantity: number): OrderItem {
+        let ret = new OrderItem();
+        ret.name = product.name;
+        ret.description = product.description;
+        ret.unitPrice = product.unitPrice;
+        ret.unitWeight = product.unitWeight;
+        ret.category = product.category;
+        ret.quantity = quantity;
+        return ret;
     }
-
 
 }

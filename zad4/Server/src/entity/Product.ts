@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, Check, JoinColumn, ManyToOne} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, Check, ManyToOne, JoinColumn} from "typeorm"
 import {Category} from "./Category";
 
 @Entity()
@@ -22,5 +22,6 @@ export class Product {
     unitWeight: number
 
     @ManyToOne(() => Category)
+    @JoinColumn({name:"category_id"})
     category: Category
 }
