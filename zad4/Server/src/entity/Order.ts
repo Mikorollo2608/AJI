@@ -9,10 +9,10 @@ export class Order {
     @PrimaryGeneratedColumn()
     id: number
 
-    @OneToMany(() => OrderItem, (orderItems) => orderItems.order)
+    @OneToMany(() => OrderItem, (orderItems) => orderItems.order, { eager:true })
     orderItems: OrderItem[]
 
-    @ManyToOne(() => OrderState)
+    @ManyToOne(() => OrderState, { eager:true })
     @JoinColumn({name:"order_state"})
     orderState: OrderState
 
