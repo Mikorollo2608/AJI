@@ -1,36 +1,13 @@
-import {Request, Response} from "express";
+import {ExpressValidator} from "express-validator";
 import {AppDataSource} from "../data-source";
-import {Product} from "../entity/Product";
-import {ReasonPhrases, StatusCodes, getReasonPhrase, getStatusCode} from 'http-status-codes';
-import {RestError} from "../errors";
 import {Category} from "../entity/Category";
 
-const productRepository = AppDataSource.getRepository(Product);
 const categoryRepository = AppDataSource.getRepository(Category);
+export const { checkSchema } = new ExpressValidator({
+    categoryExists: async (value:any) => {return categoryExists(value);}
+})
 
-export async function getAllProducts(req: Request, res: Response): Promise<void> {
-    const products: Product[] = await productRepository.find()
-    res.json(products);
-}
-
-export async function createNewProduct(req: Request, res: Response): Promise<void> {
-    let errors = await RestError.collectValidatorErrors(req, createNewProductSchema);
-    if (errors.length != 0) {
-        res.status(StatusCodes.BAD_REQUEST).json(errors);
-        return
-    }
-
-    let newProduct= productRepository.create(req.body);
-    try {
-        await productRepository.save(newProduct)
-    } catch (error) {
-        res.status(StatusCodes.BAD_REQUEST).json(RestError.getErrorMessage(error));
-        return;
-    }
-    res.sendStatus(StatusCodes.CREATED);
-}
-
-const createNewProductSchema = {
+export const createNewProductSchema = {
     name: {
         isString: true,
         errorMessage: "Name must be a non empty string."
@@ -39,13 +16,13 @@ const createNewProductSchema = {
         isString: true,
         errorMessage: "Description must be a non empty string."
     },
-    unit_price: {
+    unitPrice: {
         isFloat: {
             options: {gt: 0},
             errorMessage: "Unit price must be a float greater than 0."
         }
     },
-    unit_weight: {
+    unitWeight: {
         isFloat: {
             options: {gt: 0},
             errorMessage: "Unit weight must be a float greater than 0."
@@ -83,4 +60,3 @@ export async function categoryExists (value:any) {
     }
     return result;
 }
-

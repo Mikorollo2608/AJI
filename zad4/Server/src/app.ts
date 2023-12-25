@@ -1,10 +1,7 @@
 import express, {Request,Response,Application} from "express";
 import {AppDataSource} from "./data-source";
-import  "./AccessFunctions/ProductAccess"
-import {createNewProduct, getAllProducts} from "./AccessFunctions/ProductAccess";
-import {Product} from "./entity/Product";
-import {Category} from "./entity/Category";
-import {getAllCategories} from "./AccessFunctions/CategoryAccess";
+import {router as productRouter} from "./Routers/ProductRouter";
+import {router as categoryRouter} from "./Routers/CategoryRouter";
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
@@ -15,10 +12,9 @@ app.get('/', (req: Request, res: Response): void => {
     res.send("Hello World!");
 });
 
-app.get('/products', getAllProducts);
-app.post('/products', createNewProduct);
+app.use('/products', productRouter)
 
-app.get('/category', getAllCategories);
+app.use('/category', categoryRouter);
 
 // await AppDataSource.manager.save(product)
 // const users = await AppDataSource.manager.find(Product)
