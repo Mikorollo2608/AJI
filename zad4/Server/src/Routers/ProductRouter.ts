@@ -110,4 +110,4 @@ router.post('/',checkExact(checkSchema(createNewProductSchema)), createNewProduc
 router.get('/:id', param('id').isInt().productExists(), getProductById);
 
 //you change category by specifying only one of the category parameters
-router.put('/:id', checkExact([checkSchema(modifyProductSchema),param('id').isInt().withMessage("Product id must be a positive integer").bail().productExists()]), modifyProductById);
+router.put('/:id', checkExact([checkSchema(createNewProductSchema),param('id').isInt().withMessage("Product id must be a positive integer").bail().productExists()]), modifyProductById);
