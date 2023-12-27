@@ -2,6 +2,8 @@ import express, {Request,Response,Application} from "express";
 import {AppDataSource} from "./data-source";
 import {router as productRouter} from "./Routers/ProductRouter";
 import {router as categoryRouter} from "./Routers/CategoryRouter";
+import {router as statusRouter} from "./Routers/StatusRouter";
+import {router as orderRouter} from "./Routers/OrderRouter";
 
 const app: Application = express();
 const PORT = process.env.PORT || 8000;
@@ -15,6 +17,10 @@ app.get('/', (req: Request, res: Response): void => {
 app.use('/products', productRouter)
 
 app.use('/category', categoryRouter);
+
+app.use('/status', statusRouter);
+
+app.use('/order', orderRouter);
 
 // await AppDataSource.manager.save(product)
 // const users = await AppDataSource.manager.find(Product)

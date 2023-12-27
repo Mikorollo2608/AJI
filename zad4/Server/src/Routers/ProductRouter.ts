@@ -4,13 +4,11 @@ import {Product} from "../entity/Product";
 import {ReasonPhrases, StatusCodes, getReasonPhrase, getStatusCode} from 'http-status-codes';
 import {RestError} from "../errors";
 import {checkExact, validationResult} from "express-validator";
+import { createNewProductSchema } from "../Schemas/ProductSchemas";
 import {
     param,
     checkSchema,
-    createNewProductSchema,
-    productExists,
-    modifyProductSchema
-} from "../Schemas/ProductSchemas";
+} from "../Schemas/Schema";
 
 const productRepository = AppDataSource.getRepository(Product);
 

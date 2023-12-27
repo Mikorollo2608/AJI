@@ -5,10 +5,6 @@ import {Product} from "../entity/Product";
 
 const categoryRepository = AppDataSource.getRepository(Category);
 const productRepository = AppDataSource.getRepository(Product);
-export const { checkSchema, param } = new ExpressValidator({
-    categoryExists: async (value:any) => {return categoryExists(value);},
-    productExists: async (value:any) => {return productExists(value);}
-})
 
 export const createNewProductSchema = {
     name: {
