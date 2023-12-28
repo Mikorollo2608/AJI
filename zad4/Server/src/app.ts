@@ -16,11 +16,11 @@ app.get('/', (req: Request, res: Response): void => {
 
 app.use('/products', productRouter)
 
-app.use('/category', categoryRouter);
+app.use('/categories', categoryRouter);
 
 app.use('/status', statusRouter);
 
-app.use('/order', orderRouter);
+app.use('/orders', orderRouter);
 
 // await AppDataSource.manager.save(product)
 // const users = await AppDataSource.manager.find(Product)

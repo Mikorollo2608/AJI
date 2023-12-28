@@ -13,11 +13,11 @@ export class Order {
     orderItems: OrderItem[]
 
     @ManyToOne(() => Status, { eager:true })
-    @JoinColumn()
+    @JoinColumn({name:"status_id"})
     status: Status
 
-    @Column({name: "date_of_approval", nullable: true})
-    dateOfApproval: string
+    @Column({name: "date_of_approval", nullable: true, type: 'timestamptz' })
+    dateOfApproval: Date
 
     @Column({nullable: false})
     username: string
