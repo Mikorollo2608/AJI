@@ -36,50 +36,6 @@ export const createNewOrderSchema = {
     }
 }
 
-export const updateOrderSchema = {
-    username: {
-        notEmpty: true,
-        isString: true,
-        errorMessage: "Username must be a non empty string."
-    },
-    email: {
-        isEmail: true,
-        errorMessage: "Incorrect mail"
-    },
-    phone: {
-        isMobilePhone: true,
-        errorMessage: "Incorrect phone number"
-    },
-    products: {
-        arrayNotEmpty: true,
-    },
-    'products.*.id': {
-        isInt: true,
-        errorMessage: "Product id must be an integer greater than 0."
-    },
-    'products.*.quantity': {
-        isInt: {
-            options: {gt: 0},
-            errorMessage: "Product quantity must be an integer greater than 0."
-        }
-    },
-    status:{
-        statusExists: true
-    },
-    'status.id':{
-        isInt: {
-            options: {min:1, max:2},
-            errorMessage: "Status id must be either a 1 or 2."
-        }
-    },
-    'status.status':{
-        isIn:{
-            options: [['UNAPPROVED', 'APPROVED']],
-            errorMessage: "Status must be one of the available values ['UNAPPROVED', 'APPROVED']."
-        },
-    }
-}
-
 export const jsonPatchReplaceSchema = {
     op: {
         isIn: {
@@ -104,8 +60,8 @@ export const jsonPatchReplaceSchema = {
     },
     'value.status': {
         isIn:{
-            options: [['CANCELED', 'COMPLETED']],
-            errorMessage: "Status must be one of the available values ['CANCELED','COMPLETED']"
+            options: [['APPROVED','CANCELED', 'COMPLETED']],
+            errorMessage: "Status must be one of the available values ['APPROVED    ','CANCELED','COMPLETED']"
         },
     }
 }

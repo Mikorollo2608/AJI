@@ -11,7 +11,6 @@ import {checkSchema, param} from "../Schemas/Schema";
 import {
     createNewOrderSchema,
     jsonPatchReplaceSchema,
-    updateOrderSchema
 } from "../Schemas/OrderSchemas";
 
 const orderRepository = AppDataSource.getRepository(Order);
@@ -21,18 +20,20 @@ const statusRepository = AppDataSource.getRepository(Status);
 export const router = express.Router();
 
 router.get('/', getAllOrders);
-router.get('/status/:id',checkExact(param("id").isInt({min: 1, max:4}).statusParamExists().withMessage("Id must be an integer bigger than 0 and lower than 5.")), getOrdersByStatus);
-router.post('/', checkExact(checkSchema(createNewOrderSchema)),  createNewOrder);
-router.patch('/:id', checkExact([checkSchema(jsonPatchReplaceSchema),param("id"),param("id").orderExists().bail()]), changeOrderStatus);
-router.put('/:id', checkExact([param("id").orderExists().bail(), checkSchema(updateOrderSchema)]), modifyOrder);
+router.get('/status/:id', checkExact(param("id").isInt({
+    min: 1,
+    max: 4
+}).statusParamExists().withMessage("Id must be an integer bigger than 0 and lower than 5.")), getOrdersByStatus);
+router.post('/', checkExact(checkSchema(createNewOrderSchema)), createNewOrder);
+router.patch('/:id', checkExact([checkSchema(jsonPatchReplaceSchema), param("id"), param("id").orderExists().bail()]), changeOrderStatus);
 
 async function getAllOrders(req: Request, res: Response): Promise<void> {
-    if(req.query.username){
-        const username= req.query.username.toString();
+    if (req.query.username) {
+        const username = req.query.username.toString();
         const orders: Order[] = await orderRepository.findBy({username: username})
         res.json(orders);
         return
-    }else{
+    } else {
         const orders: Order[] = await orderRepository.find();
         res.json(orders);
         return
@@ -82,16 +83,16 @@ async function createNewOrder(req: Request, res: Response): Promise<void> {
             return;
         }
         if (!result) {
-            res.status(StatusCodes.BAD_REQUEST).json(new RestError("field",`Product with id: ${product.id} doesn't exist.`))
+            res.status(StatusCodes.BAD_REQUEST).json(new RestError("field", `Product with id: ${product.id} doesn't exist.`))
         } else {
             orderItems.push(OrderItem.create(result, product.quantity));
         }
     }
 
     //if select fails this means status table is messed up
-    const status: Status | null = await statusRepository.findOneBy({id:1, status:"UNAPPROVED"});
-    if(!status){
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new RestError("database","Couldn't get UNAPPROVED status of the order."));
+    const status: Status | null = await statusRepository.findOneBy({id: 1, status: "UNAPPROVED"});
+    if (!status) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new RestError("database", "Couldn't get UNAPPROVED status of the order."));
         return;
     }
 
@@ -136,8 +137,13 @@ async function changeOrderStatus(req: Request, res: Response): Promise<void> {
         return;
     }
 
-    if (order.status.id > req.body.value.id) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new RestError("field", "Can't change order status to a lower one."));
+    if (order.status.id >= req.body.value.id) {
+            res.status(StatusCodes.BAD_REQUEST).json(new RestError("field", "Can't change order status to the same or lower one."));
+        return;
+    }
+
+    if (order.status.id < 2 && req.body.value.id > 2) {
+        res.status(StatusCodes.BAD_REQUEST).json(new RestError("field", "Can't change order to CANCELED or COMPLETED before approving it."));
         return;
     }
 
@@ -147,81 +153,11 @@ async function changeOrderStatus(req: Request, res: Response): Promise<void> {
     }
 
     order.status = req.body.value;
-    try {
-        order = await orderRepository.save(order);
-    } catch (error) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(RestError.getErrorMessage(error));
-        return;
-    }
-    res.status(StatusCodes.CREATED).json(order);
-}
 
-
-async function modifyOrder(req: Request, res: Response): Promise<void> {
-    //get errors
-    const errors = validationResult(req);
-    let restErrors: RestError[];
-    if (!errors.isEmpty()) {
-        restErrors = RestError.getValidatorErrors(errors.array());
-        res.status(StatusCodes.BAD_REQUEST).json(restErrors);
-        return;
-    }
-    //get order
-    const id:number = parseInt(req.params.id);
-    let dbOrder;
-    try {
-        dbOrder = await orderRepository.findOneBy({id:id});
-    } catch (error) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(RestError.getErrorMessage(error));
-        return;
-    }
-    if(!dbOrder){
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(new RestError("database", "Couldn't find an order."));
-        return;
-    }
-
-    if(dbOrder.status.status=="APPROVED"){
-        res.status(StatusCodes.BAD_REQUEST).json(new RestError("field","Can't update an approved order."));
-        return;
-    }
-
-    //delete old OrderItems
-    let oldOrderItems: OrderItem[] = dbOrder.orderItems;
-    try {
-        await orderItemRepository.remove(oldOrderItems);
-    } catch (error) {
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(RestError.getErrorMessage(error));
-        return;
-    }
-
-    //create new OrderItems from given products
-    let result;
-    let orderItems: OrderItem[] = [];
-    for (const product of req.body.products) {
-        try {
-            result = await productRepository.findOneBy({
-                id: product.id
-            })
-        } catch (error) {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(RestError.getErrorMessage(error));
-            return;
-        }
-        if (!result) {
-            res.status(StatusCodes.BAD_REQUEST).json(new RestError("field",`Product with id: ${product.id} doesn't exist.`))
-        } else {
-            orderItems.push(OrderItem.create(result, product.quantity));
-        }
-    }
-
-    //create updated order
-    let order = req.body;
-    if(order.status.status=="APPROVED"){
+    if (order.status.status == "APPROVED") {
         order.dateOfApproval = new Date(Date.now());
     }
 
-    order.orderItems = orderItems;
-    delete order.products;
-    order = {...dbOrder,...order};
     try {
         order = await orderRepository.save(order);
     } catch (error) {
