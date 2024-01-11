@@ -1,4 +1,5 @@
 import express, {Request,Response,Application} from "express";
+import cors from "cors";
 import {AppDataSource} from "./data-source";
 import {router as productRouter} from "./Routers/ProductRouter";
 import {router as categoryRouter} from "./Routers/CategoryRouter";
@@ -6,9 +7,16 @@ import {router as statusRouter} from "./Routers/StatusRouter";
 import {router as orderRouter} from "./Routers/OrderRouter";
 
 const app: Application = express();
-const PORT = process.env.PORT || 8000;
-
+const PORT = 3000;
 app.use(express.json());
+
+const allowedOrigins = ['http://localhost:3001'];
+
+const options: cors.CorsOptions = {
+    origin: allowedOrigins
+};
+
+app.use(cors(options));
 
 app.get('/', (req: Request, res: Response): void => {
     res.send("Hello World!");
