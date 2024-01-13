@@ -1,3 +1,6 @@
+import exp from "constants";
+import {Dispatch, SetStateAction} from "react";
+
 export interface ICategory {
     id: number;
     name: string;
@@ -32,10 +35,14 @@ export interface IOrderItem{
     quantity: number
 }
 
-export interface IOrder{
-    id: number
+
+export interface IUserDetails{
     username: string
     email: string
     phone: string
-    orderItems: IOrderItem[]
+}
+
+export type ICartProp = {
+    cart: IProductExtended[];
+    setCart: Dispatch<SetStateAction<IProductExtended[]>>
 }

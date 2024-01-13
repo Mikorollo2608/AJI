@@ -5,8 +5,8 @@ import {IFilters, IProduct, IProductExtended} from "../interfaces";
 import Search from "./Search";
 
 type ICartProp = {
-    cart: IProductExtended[] | undefined;
-    setCart: Dispatch<SetStateAction<IProductExtended[] | undefined>>
+    cart: IProductExtended[];
+    setCart: Dispatch<SetStateAction<IProductExtended[]>>
 }
 
 function ProductsPage({cart,setCart}:ICartProp) {

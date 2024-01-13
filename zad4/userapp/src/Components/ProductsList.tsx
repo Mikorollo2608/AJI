@@ -6,14 +6,14 @@ import {find, filter, includes, isEqual} from 'lodash';
 import {IFilters, IProduct, IProductExtended} from "../interfaces";
 
 type IProductsListProps = {
-    cart: IProductExtended[] | undefined;
-    setCart: Dispatch<SetStateAction<IProductExtended[] | undefined>>
-    filters: IFilters | undefined;
+    cart: IProductExtended[];
+    setCart: Dispatch<SetStateAction<IProductExtended[]>>
+    filters: IFilters;
 }
 
 type ICartProp = {
-    cart: IProductExtended[] | undefined;
-    setCart: Dispatch<SetStateAction<IProductExtended[] | undefined>>
+    cart: IProductExtended[];
+    setCart: Dispatch<SetStateAction<IProductExtended[]>>
 }
 
 function addToCart(product: IProduct, {cart, setCart}: ICartProp) {
@@ -24,6 +24,10 @@ function addToCart(product: IProduct, {cart, setCart}: ICartProp) {
     }) === undefined) {
         setCart(cart?.concat([{...product, quantity:1}]));
     }
+}
+
+function changeQuantity(product:IProductExtended, delta:number){
+    if(product.quantity+delta>0)product.quantity+=delta;
 }
 
 function ProductsList({cart, setCart, filters}: IProductsListProps) {
@@ -66,6 +70,7 @@ function ProductsList({cart, setCart, filters}: IProductsListProps) {
                     <th>Name</th>
                     <th>Description</th>
                     <th>Price</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

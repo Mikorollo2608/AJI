@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import '../Styles/App.css';
-import ProductsList from "./ProductsList";
-import {IFilters, IProduct, IProductExtended} from "../interfaces";
-import Search from "./Search";
+import {IProductExtended} from "../interfaces";
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import ShopNavBar from "./ShopNavBar";
 import ProductsPage from "./ProductsPage";
 import CheckoutPage from "./CheckoutPage";
 
 function App() {
-    const [shoppingCart, setShoppingCart] = useState<IProductExtended[]>();
+    const [shoppingCart, setShoppingCart] = useState<IProductExtended[]>([]);
 
     useEffect(() => {
     }, [shoppingCart]);
