@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../Styles/App.css';
 import {IProductExtended} from "../interfaces";
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
@@ -9,8 +9,6 @@ import CheckoutPage from "./CheckoutPage";
 function App() {
     const [shoppingCart, setShoppingCart] = useState<IProductExtended[]>([]);
 
-    useEffect(() => {
-    }, [shoppingCart]);
     return (
         <div className="App">
             <Router>

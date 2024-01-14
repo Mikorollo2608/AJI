@@ -26,10 +26,6 @@ function addToCart(product: IProduct, {cart, setCart}: ICartProp) {
     }
 }
 
-function changeQuantity(product:IProductExtended, delta:number){
-    if(product.quantity+delta>0)product.quantity+=delta;
-}
-
 function ProductsList({cart, setCart, filters}: IProductsListProps) {
     const [products, setProducts] = useState<IProduct[]>();
     const [productsFiltered, setProductsFiltered] = useState<IProduct[]>();

@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import '../Styles/App.css';
 import ProductsList from "./ProductsList";
-import {IFilters, IProduct, IProductExtended} from "../interfaces";
+import {IFilters, IProductExtended} from "../interfaces";
 import Search from "./Search";
 
 type ICartProp = {
