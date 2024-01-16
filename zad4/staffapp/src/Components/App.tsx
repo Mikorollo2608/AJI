@@ -3,6 +3,7 @@ import '../Styles/App.css';
 import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import ShopNavBar from "./ShopNavBar";
 import ProductsPage from "./ProductsPage";
+import OrdersPage from "./OrdersPage";
 
 function App() {
 
@@ -12,7 +13,7 @@ function App() {
           <ShopNavBar/>
           <Routes>
             <Route path="/" element={<ProductsPage />}></Route>
-            {/*<Route path="/checkout" element={<CheckoutPage cart={shoppingCart} setCart={setShoppingCart}/>}></Route>*/}
+            {<Route path="/orders" element={<OrdersPage />}></Route>}
           </Routes>
         </Router>
       </div>

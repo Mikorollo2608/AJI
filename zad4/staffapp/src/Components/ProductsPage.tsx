@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import '../Styles/App.css';
-import {Col, Row, Table} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import axios from "axios";
 import {ICategory, IError, IProduct} from "../interfaces";
 import Product from "./Product";
-import Container from "react-bootstrap/Container";
 import AlertDismissibleExample from "./AlertDIsmissable";
+import {sortBy} from "lodash";
+
 
 function ProductsPage() {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -39,8 +40,10 @@ function ProductsPage() {
                     </tr>
                 </thead>
                 <tbody>
-                {products.map((product) => {
-                    return (<Product key={product.id} product={product} categories={categories}/>)
+                {sortBy(products, (product) => {return product.id}).map((product) => {
+                    return (<Product key={product.id} product={product} products={products}
+                                     setProducts={setProducts} categories={categories}
+                                     setShowAlert={setShowAlert} setErrors={setErrors}/>)
                 })}
                 </tbody>
             </Table>

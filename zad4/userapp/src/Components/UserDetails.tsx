@@ -51,7 +51,6 @@ function UserDetails({cart, setCart}: ICartProp) {
                                 setRequestSucceeded(true);
                             })
                             .catch(function (error) {
-                                console.log(error.response.data);
                                 let reason:string[] = [];
                                 //@ts-ignore
                                 error.response.data.forEach((item)=>{

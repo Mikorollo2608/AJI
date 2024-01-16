@@ -1,21 +1,56 @@
-import {ICategory, IProduct} from "../interfaces";
-import {ChangeEvent, useEffect, useRef, useState} from "react";
-import {Alert, Button, Col, Form, Overlay, Row, Tooltip} from "react-bootstrap";
+import {ICategory, IError, IProduct} from "../interfaces";
+import {ChangeEvent, Dispatch, SetStateAction, useState} from "react";
+import {Button, Col, Form, Row} from "react-bootstrap";
+import axios from "axios";
+import {isEqual, without, find} from "lodash";
+import '../Styles/App.css';
 
-interface IProductProps{
-    product:IProduct
-    categories:ICategory[]
+interface IProductProps {
+    product: IProduct
+    products: IProduct[]
+    setProducts: Dispatch<SetStateAction<IProduct[]>>
+    categories: ICategory[]
+    setShowAlert: Dispatch<SetStateAction<boolean>>
+    setErrors: Dispatch<SetStateAction<IError[]>>
 }
 
-
-function Product({product,categories}:IProductProps){
+function Product({product, products, setProducts, categories, setShowAlert, setErrors}: IProductProps) {
     const [isBeingEdited, setIsBeingEdited] = useState(false);
     const [productEdited, setProductEdited] = useState<IProduct>({...product});
     type ObjectKey = keyof typeof productEdited;
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const key = e.target.name as ObjectKey;
         const value = e.target.value === "" ? productEdited[key] : e.target.value;
-        setProductEdited({...productEdited, [key]:+value});
+        setProductEdited({...productEdited, [key]: +value});
+    }
+
+    const onChangeCategory = (e: ChangeEvent<HTMLSelectElement>) => {
+        const categoryName = e.target.value;
+        const category = find(categories, (category) => {
+            return category.name === categoryName
+        })
+        if (category !== undefined) setProductEdited({...productEdited, category: category});
+    }
+
+    const editProduct = () => {
+        if (isEqual(product, productEdited)) {
+            setIsBeingEdited(false);
+            return;
+        }
+        let productToPost: any = {...productEdited};
+        delete productToPost['id'];
+        axios.put(`http://localhost:3000/products/${productEdited.id}`, productToPost)
+            .then(() => {
+                let productsCopy = without(products, product);
+                product = {...productEdited};
+                productsCopy.push(product);
+                setProducts(productsCopy);
+                setIsBeingEdited(false);
+            })
+            .catch((error) => {
+                setShowAlert(true);
+                setErrors(error.response.data)
+            })
     }
 
     // useEffect(() => {
@@ -26,10 +61,11 @@ function Product({product,categories}:IProductProps){
         <tr>
             <td>{product.id}</td>
             <td>{product.name}</td>
-            <td>{product.description}</td>
+            <td className="w-25">{product.description}</td>
             {!isBeingEdited && <td>{product.unitPrice.toFixed(2)} zł</td>}
             {isBeingEdited && <td>
                 <Form.Control
+                    className="position-relative translate-middle-x start-50"
                     type="number"
                     name="unitPrice"
                     defaultValue={productEdited.unitPrice.toFixed(2)}
@@ -39,6 +75,7 @@ function Product({product,categories}:IProductProps){
             {!isBeingEdited && <td>{product.unitWeight.toFixed(2)} zł</td>}
             {isBeingEdited && <td>
                 <Form.Control
+                    className="position-relative translate-middle-x start-50"
                     type="number"
                     name="unitWeight"
                     defaultValue={productEdited.unitWeight.toFixed(2)}
@@ -48,6 +85,8 @@ function Product({product,categories}:IProductProps){
             {!isBeingEdited && <td>{product.category.name}</td>}
             {isBeingEdited && <td>
                 <Form.Select
+                    onChange={onChangeCategory}
+                    className="position-relative translate-middle-x start-50"
                     name="category"
                     defaultValue={productEdited.category.name}
                 >
@@ -56,8 +95,12 @@ function Product({product,categories}:IProductProps){
                 </Form.Select>
             </td>}
             <td>
-                {!isBeingEdited && <Button variant="primary" onClick={()=>setIsBeingEdited(true)}>Edit</Button>}
-                {isBeingEdited && <Button variant="success" onClick={()=>{setIsBeingEdited(false)}}>Save</Button>}
+                <Row>
+                    {!isBeingEdited && <Col><Button variant="primary"  onClick={() => setIsBeingEdited(true)}>Edit</Button></Col>}
+                    {isBeingEdited && <Col><Button variant="success" onClick={editProduct}>Save</Button></Col>}
+                    {isBeingEdited &&
+                        <Col><Button variant="danger" onClick={() => setIsBeingEdited(false)}>X</Button></Col>}
+                </Row>
             </td>
         </tr>
     )

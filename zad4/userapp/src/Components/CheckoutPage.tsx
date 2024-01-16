@@ -3,8 +3,8 @@ import '../Styles/App.css';
 import ProductsList from "./ProductsList";
 import {IFilters, IProduct, IProductExtended} from "../interfaces";
 import Search from "./Search";
-import CartProductsList from "./cartProductsList";
-import UserDetails from "./userDetails";
+import CartProductsList from "./CartProductsList";
+import UserDetails from "./UserDetails";
 
 type ICartProp = {
     cart: IProductExtended[];
