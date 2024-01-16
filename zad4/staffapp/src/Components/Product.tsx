@@ -72,7 +72,7 @@ function Product({product, products, setProducts, categories, setShowAlert, setE
                     onChange={onChange}
                 ></Form.Control>
             </td>}
-            {!isBeingEdited && <td>{product.unitWeight.toFixed(2)} zł</td>}
+            {!isBeingEdited && <td>{product.unitWeight.toFixed(2)} g</td>}
             {isBeingEdited && <td>
                 <Form.Control
                     className="position-relative translate-middle-x start-50"

@@ -44,7 +44,7 @@ function ModalOrders({show,setShow,order}:IModalProps) {
                                     <td>{orderItem.name}</td>
                                     <td>{orderItem.description}</td>
                                     <td>{orderItem.unitPrice} zł</td>
-                                    <td>{orderItem.unitWeight} zł</td>
+                                    <td>{orderItem.unitWeight} g</td>
                                     <td>{orderItem.quantity}</td>
                                 </tr>
                             )

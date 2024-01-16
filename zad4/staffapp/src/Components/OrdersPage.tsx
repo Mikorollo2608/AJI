@@ -100,14 +100,14 @@ function OrdersPage(){
                                 <td>{order.email}</td>
                                 <td>{order.phone}</td>
                                 {order.dateOfApproval === null && <td></td>}
-                                {order.dateOfApproval !== null && <td>{(new Date(order.dateOfApproval)).toUTCString()}</td>}
+                                {order.dateOfApproval !== null && <td>{(new Date(order.dateOfApproval)).toLocaleString()}</td>}
                                 <td><Button variant="primary" onClick={()=>{setDisplayOrder(order); setShowModal(true)}}>Details</Button></td>
                                 <td>{order.status.status}</td>
                                 <td>
                                     <Row>
                                         {order.status.id === 1 && <Col><Button variant="primary" onClick={()=>changeStatusOrder(order,statuses[1])} >APPROVE</Button></Col>}
                                         {order.status.id === 2 && <Col><Button variant="primary" onClick={()=>changeStatusOrder(order,statuses[3])}>COMPLETE</Button></Col>}
-                                        {order.status.id  < 3 && <Col><Button variant="primary"  onClick={()=>changeStatusOrder(order,statuses[2])}>CANCEL</Button></Col>}
+                                        {order.status.id === 2 && <Col><Button variant="primary"  onClick={()=>changeStatusOrder(order,statuses[2])}>CANCEL</Button></Col>}
                                     </Row>
                                 </td>
                             </tr>
